@@ -1,7 +1,15 @@
 html
 	include core/header.pug
 body
-	h1 Hello from pug
+	h1 Tambah siswa
+	form(action="/mahasiswa/tambah", method='POST')
+		label Nama 	:
+		input(type='text', name='nama')
+		br
+		label NPM 	:
+		input(type='text', name='npm')
+		br
+		input(type='submit', value='Tambah')
 	p #{judul}
 	ul
 		each siswa in siswas
