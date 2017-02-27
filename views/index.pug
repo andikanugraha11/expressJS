@@ -1,0 +1,11 @@
+html
+	include core/header.pug
+body
+	h1 Hello from pug
+	p #{judul}
+	ul
+		each siswa in siswas
+			li
+				| #{siswa.name}
+				br
+				| #{siswa.npm}
