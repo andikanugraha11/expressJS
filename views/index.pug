@@ -1,6 +1,10 @@
 html
 	include core/header.pug
 body
+	if errors
+		ul
+			each error in errors
+				li #{error.msg}
 	h1 Tambah siswa
 	form(action="/mahasiswa/tambah", method='POST')
 		label Nama 	:
