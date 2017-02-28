@@ -2,10 +2,10 @@ var express 	= require('express');
 var bodyParser	= require('body-parser');
 var path		= require('path');
 var expressValidator = require('express-validator');
-
+var mongojs		= require('mongojs');
 var app 		= express();
 
-
+var db = mongojs('mahasiswa', ['3IA01'])
 //view engine
 app.set('view engine','pug');
 app.set('views',path.join(__dirname,'views'));
@@ -41,10 +41,14 @@ app.use(expressValidator({
 }));
 
 app.get('/',function(req,res){
-	res.render('index',{
-		judul	: 'Daftar mahasiswa',
-		siswas	: mahasiswa
+
+	db.siswa.find(function (err, docs) {
+		res.render('index',{
+			judul	: 'Daftar mahasiswa',
+			siswas	: docs
+		})
 	})
+	
 });
 
 app.post('/mahasiswa/tambah', function(req,res){
@@ -55,17 +59,24 @@ app.post('/mahasiswa/tambah', function(req,res){
 	var errors = req.validationErrors();
 
 	if(errors){
+		db.siswa.find(function (err, docs) {
 		res.render('index',{
-		judul	: 'Daftar mahasiswa',
-		siswas	: mahasiswa,
-		errors 	: errors
+			judul	: 'Daftar mahasiswa',
+			siswas	: docs,
+			errors : errors
+		})
 	})
 	}else{
 		var mahasiswaBaru = {
-			name	: req.body.nama,
+			nama	: req.body.nama,
 			npm		: req.body.npm
 		}
-		console.log('SUKSES');
+		db.siswa.insert(mahasiswaBaru,function(err,docs){
+			if(err){
+				console.log(err);
+			}
+			res.redirect('/');
+		})
 	}
 	
 	
