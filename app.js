@@ -51,6 +51,10 @@ app.get('/',function(req,res){
 	
 });
 
+app.get('/mahasiswa/hapus/:id',function(req,res){
+	console.log(req.params.id);
+});
+
 app.post('/mahasiswa/tambah', function(req,res){
 
 	req.checkBody('nama','Nama tidak boleh kosong').notEmpty();
